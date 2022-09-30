@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 
+import { AppRoutingModule } from './app-routing.module';
+
 import { DropdownDirective } from './shared/directive/dropdown.directive';
 
 import { ShoppingListService } from './shopping-list/service/shopping-list.service';
@@ -29,7 +31,7 @@ import { ShoppingEditComponent } from './shopping-list/shopping-edit/shopping-ed
     // Directives
     DropdownDirective,
   ],
-  imports: [BrowserModule, FormsModule],
+  imports: [BrowserModule, FormsModule, AppRoutingModule],
   providers: [
     // Services
     ShoppingListService,
