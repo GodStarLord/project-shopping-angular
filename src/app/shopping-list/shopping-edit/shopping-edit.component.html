@@ -32,7 +32,9 @@
             {{ isEditMode ? "Update" : "Add" }}
           </button>
           <button class="btn btn-danger" type="button">Delete</button>
-          <button class="btn btn-secondary" type="submit">Clear</button>
+          <button class="btn btn-secondary" type="submit" (click)="onClear()">
+            Clear
+          </button>
         </div>
       </div>
     </form>
