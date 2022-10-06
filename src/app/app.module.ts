@@ -11,6 +11,7 @@ import { ShoppingListService } from './shopping-list/service/shopping-list.servi
 import { RecipeService } from './recipes/service/recipe.service';
 
 import { AppComponent } from './app.component';
+import { AuthComponent } from './auth/auth.component';
 import { HeaderComponent } from './header/header.component';
 import { RecipeStartComponent } from './recipes/recipe-start/recipe-start.component';
 import { RecipesComponent } from './recipes/recipes.component';
@@ -33,6 +34,7 @@ import { ShoppingEditComponent } from './shopping-list/shopping-edit/shopping-ed
     RecipeItemComponent,
     ShoppingListComponent,
     ShoppingEditComponent,
+    AuthComponent,
 
     // Directives
     DropdownDirective,
