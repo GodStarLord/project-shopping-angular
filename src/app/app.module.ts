@@ -7,6 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { DropdownDirective } from './shared/directive/dropdown.directive';
 
 import { ShoppingListService } from './shopping-list/service/shopping-list.service';
+import { RecipeService } from './recipes/service/recipe.service';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -39,6 +40,7 @@ import { ShoppingEditComponent } from './shopping-list/shopping-edit/shopping-ed
   providers: [
     // Services
     ShoppingListService,
+    RecipeService,
   ],
   bootstrap: [AppComponent],
 })
