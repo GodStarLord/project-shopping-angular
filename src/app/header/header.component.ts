@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 import { DataStorageService } from '../shared/service/data-storage.service';
 
@@ -14,6 +15,6 @@ export class HeaderComponent {
   }
 
   onFetchData(): void {
-    this.dataService.fetchRecipes();
+    this.dataService.fetchRecipes().subscribe();
   }
 }
