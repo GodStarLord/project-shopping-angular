@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+
+import { Recipe } from 'src/app/recipes/model/recipe.model';
 
 import { RecipeService } from 'src/app/recipes/service/recipe.service';
 
@@ -17,5 +18,13 @@ export class DataStorageService {
         recipes
       )
       .subscribe((response) => console.log(response));
+  }
+
+  fetchRecipes() {
+    this.http
+      .get<Recipe[]>(
+        'https://ng-course-recipebook-6c2f4-default-rtdb.europe-west1.firebasedatabase.app/recipes.json'
+      )
+      .subscribe((recipes: Recipe[]) => this.recipeService.setRecipes(recipes));
   }
 }
