@@ -6,6 +6,8 @@ import { AuthService } from './service/auth.service';
 @Component({ selector: 'app-auth', templateUrl: './auth.component.html' })
 export class AuthComponent {
   isLoginMode: boolean = true;
+  isLoading: boolean = false;
+  error: string = null;
 
   constructor(private authService: AuthService) {}
 
@@ -18,12 +20,17 @@ export class AuthComponent {
       return;
     }
 
+    this.isLoading = true;
     const { email, password } = authForm.value;
 
     if (!this.isLoginMode) {
       this.authService.singUp(email, password).subscribe({
         next: (resData) => console.log(resData),
-        error: (error) => console.error(error),
+        error: (error) => {
+          console.error(error);
+          this.error = 'An Error Occured!';
+        },
+        complete: () => (this.isLoading = false),
       });
     }
 
