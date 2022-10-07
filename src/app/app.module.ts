@@ -6,6 +6,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 
 import { DropdownDirective } from './shared/directive/dropdown.directive';
+import { PlaceHolderDirective } from './shared/directive/placeholder.directive';
 
 import { ShoppingListService } from './shopping-list/service/shopping-list.service';
 import { RecipeService } from './recipes/service/recipe.service';
@@ -43,6 +44,7 @@ import { ShoppingEditComponent } from './shopping-list/shopping-edit/shopping-ed
 
     // Directives
     DropdownDirective,
+    PlaceHolderDirective,
   ],
   imports: [
     BrowserModule,
