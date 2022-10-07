@@ -26,9 +26,8 @@ export class AuthComponent {
     if (!this.isLoginMode) {
       this.authService.singUp(email, password).subscribe({
         next: (resData) => console.log(resData),
-        error: (error) => {
-          console.error(error);
-          this.error = 'An Error Occured!';
+        error: (errorMessage) => {
+          this.error = errorMessage;
         },
         complete: () => (this.isLoading = false),
       });
