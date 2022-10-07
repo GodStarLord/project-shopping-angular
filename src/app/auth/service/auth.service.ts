@@ -11,16 +11,19 @@ interface AuthResponseData {
   localId: string;
 }
 
+interface SignInResponseData extends AuthResponseData {
+  registered: boolean;
+}
+
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private URL =
-    'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDEZIrEeJ8QN-djo6fEXidcUmnX4afnMpU';
-
   constructor(private http: HttpClient) {}
 
   singUp(email: string, password: string): Observable<AuthResponseData> {
+    const URL =
+      'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDEZIrEeJ8QN-djo6fEXidcUmnX4afnMpU';
     return this.http
-      .post<AuthResponseData>(this.URL, {
+      .post<AuthResponseData>(URL, {
         email: email,
         password: password,
         returnSecureToken: true,
@@ -37,5 +40,15 @@ export class AuthService {
           return throwError(errorMessage);
         })
       );
+  }
+
+  login(email: string, password: string) {
+    const signInURL =
+      'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDEZIrEeJ8QN-djo6fEXidcUmnX4afnMpU';
+    return this.http.post<SignInResponseData>(signInURL, {
+      email: email,
+      password: password,
+      returnSecureToken: true,
+    });
   }
 }

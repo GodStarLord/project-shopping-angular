@@ -31,6 +31,14 @@ export class AuthComponent {
         },
         complete: () => (this.isLoading = false),
       });
+    } else {
+      this.authService.login(email, password).subscribe({
+        next: (resData) => console.log(resData),
+        error: (errorMessage) => {
+          this.error = errorMessage;
+        },
+        complete: () => (this.isLoading = false),
+      });
     }
 
     authForm.reset();
