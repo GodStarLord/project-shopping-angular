@@ -17,17 +17,15 @@ import { AuthComponent } from './auth/auth.component';
 import { SpinnerComponent } from './shared/component/spinner/spinner.component';
 import { HeaderComponent } from './header/header.component';
 import { AlertComponent } from './shared/component/alert/alert.component';
-import { ShoppingListComponent } from './shopping-list/shopping-list.component';
-import { ShoppingEditComponent } from './shopping-list/shopping-edit/shopping-edit.component';
 
 import { RecipesModule } from './recipes/recipes.module';
+import { ShpoppingListModule } from './shopping-list/shopping-list.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    ShoppingListComponent,
-    ShoppingEditComponent,
+    
     AuthComponent,
     SpinnerComponent,
     AlertComponent,
@@ -44,6 +42,7 @@ import { RecipesModule } from './recipes/recipes.module';
     HttpClientModule,
 
     RecipesModule,
+    ShpoppingListModule
   ],
   providers: [
     // Services

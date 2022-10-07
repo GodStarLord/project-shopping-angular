@@ -7,10 +7,6 @@ import { AuthComponent } from './auth/auth.component';
 /** Most Specific to Most Generic */
 /** Static Routes followed by Dynamic Route Parameters */
 const appRoutes: Routes = [
-  {
-    path: 'shopping-list',
-    component: ShoppingListComponent,
-  },
   { path: 'auth', component: AuthComponent },
   { path: '', redirectTo: '/recipes', pathMatch: 'full' },
 ];
