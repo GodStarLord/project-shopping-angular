@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 import { User } from '../auth/model/user.model';
@@ -15,6 +16,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private subscription: Subscription;
 
   constructor(
+    private router: Router,
     private dataService: DataStorageService,
     private authService: AuthService
   ) {}
@@ -35,5 +37,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   onFetchData(): void {
     this.dataService.fetchRecipes().subscribe();
+  }
+
+  onLogout(): void {
+    this.authService.logout();
+    this.router.navigate(['/auth']);
   }
 }
