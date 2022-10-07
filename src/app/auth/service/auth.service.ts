@@ -1,7 +1,9 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { Observable, Subject, throwError } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
+
+import { User } from '../model/user.model';
 
 interface AuthResponseData {
   idToken: string;
@@ -17,6 +19,7 @@ interface SignInResponseData extends AuthResponseData {
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
+  user: Subject<User> = new Subject<User>();
   constructor(private http: HttpClient) {}
 
   singUp(email: string, password: string): Observable<AuthResponseData> {
@@ -28,7 +31,17 @@ export class AuthService {
         password: password,
         returnSecureToken: true,
       })
-      .pipe(catchError(this.handleError));
+      .pipe(
+        catchError(this.handleError),
+        tap((resData) =>
+          this.handleAuthentication(
+            resData.email,
+            resData.localId,
+            resData.idToken,
+            +resData.expiresIn
+          )
+        )
+      );
   }
 
   login(email: string, password: string) {
@@ -40,10 +53,31 @@ export class AuthService {
         password: password,
         returnSecureToken: true,
       })
-      .pipe(catchError(this.handleError));
+      .pipe(
+        catchError(this.handleError),
+        tap((resData) =>
+          this.handleAuthentication(
+            resData.email,
+            resData.localId,
+            resData.idToken,
+            +resData.expiresIn
+          )
+        )
+      );
   }
 
-  private handleError(errorRes: HttpErrorResponse) {
+  private handleAuthentication(
+    email: string,
+    userId: string,
+    token: string,
+    expiresIn: number
+  ) {
+    const exiprationDate = new Date(new Date().getTime() * expiresIn * 1000);
+    const user = new User(email, userId, token, exiprationDate);
+    this.user.next(user);
+  }
+
+  private handleError(errorRes: HttpErrorResponse): Observable<never> {
     let errorMessage = 'An unknown error occured!';
     if (!errorRes.error || !errorRes.error.error)
       return throwError(() => new Error(errorMessage));
