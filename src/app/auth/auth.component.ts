@@ -25,19 +25,25 @@ export class AuthComponent {
 
     if (!this.isLoginMode) {
       this.authService.singUp(email, password).subscribe({
-        next: (resData) => console.log(resData),
+        next: (resData) => {
+          console.log(resData);
+          this.isLoading = false;
+        },
         error: (errorMessage) => {
           this.error = errorMessage;
+          this.isLoading = false;
         },
-        complete: () => (this.isLoading = false),
       });
     } else {
       this.authService.login(email, password).subscribe({
-        next: (resData) => console.log(resData),
+        next: (resData) => {
+          console.log(resData);
+          this.isLoading = false;
+        },
         error: (errorMessage) => {
           this.error = errorMessage;
+          this.isLoading = false;
         },
-        complete: () => (this.isLoading = false),
       });
     }
 
