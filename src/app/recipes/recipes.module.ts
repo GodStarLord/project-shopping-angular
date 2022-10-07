@@ -21,14 +21,6 @@ import { RecipesComponent } from './recipes.component';
     RecipeEditComponent,
     RecipeItemComponent,
   ],
-  exports: [
-    RecipeStartComponent,
-    RecipesComponent,
-    RecipeListComponent,
-    RecipeDetailComponent,
-    RecipeEditComponent,
-    RecipeItemComponent,
-  ],
   // RouterModule: to fix router-outlet errors
   // .forRoot() is used only once, and use .forChild() which merges into the root route
 
