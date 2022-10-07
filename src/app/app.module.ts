@@ -60,5 +60,8 @@ import { ShoppingEditComponent } from './shopping-list/shopping-edit/shopping-ed
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
+  // This property is deprecated in latest Angular
+  // we can ommit this, and Angular will take care about entryComponents
+  entryComponents: [AlertComponent],
 })
 export class AppModule {}
