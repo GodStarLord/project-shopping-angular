@@ -8,6 +8,7 @@ import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component
 import { ShoppingListComponent } from './shopping-list/shopping-list.component';
 import { RecipeResolverService } from './recipes/resolver/recipe-reslover.service';
 import { AuthComponent } from './auth/auth.component';
+import { AuthGuard } from './auth/guard/auth.guard';
 
 /** Most Specific to Most Generic */
 /** Static Routes followed by Dynamic Route Parameters */
@@ -29,6 +30,7 @@ const appRoutes: Routes = [
       },
       { path: '', component: RecipeStartComponent },
     ],
+    canActivate: [AuthGuard],
   },
   {
     path: 'shopping-list',
