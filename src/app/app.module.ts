@@ -15,6 +15,7 @@ import { AppComponent } from './app.component';
 import { AuthComponent } from './auth/auth.component';
 import { SpinnerComponent } from './shared/component/spinner/spinner.component';
 import { HeaderComponent } from './header/header.component';
+import { AlertComponent } from './shared/component/alert/alert.component';
 import { RecipeStartComponent } from './recipes/recipe-start/recipe-start.component';
 import { RecipesComponent } from './recipes/recipes.component';
 import { RecipeListComponent } from './recipes/recipe-list/recipe-list.component';
@@ -38,6 +39,7 @@ import { ShoppingEditComponent } from './shopping-list/shopping-edit/shopping-ed
     ShoppingEditComponent,
     AuthComponent,
     SpinnerComponent,
+    AlertComponent,
 
     // Directives
     DropdownDirective,
