@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { AuthService } from './service/auth.service';
 
@@ -9,7 +10,7 @@ export class AuthComponent {
   isLoading: boolean = false;
   error: string = null;
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   onSwitchMode(): void {
     this.isLoginMode = !this.isLoginMode;
@@ -26,23 +27,27 @@ export class AuthComponent {
     if (!this.isLoginMode) {
       this.authService.singUp(email, password).subscribe({
         next: (resData) => {
-          console.log(resData);
           this.isLoading = false;
         },
         error: (errorMessage) => {
           this.error = errorMessage;
           this.isLoading = false;
+        },
+        complete: () => {
+          this.router.navigate(['/recipes']);
         },
       });
     } else {
       this.authService.login(email, password).subscribe({
         next: (resData) => {
-          console.log(resData);
           this.isLoading = false;
         },
         error: (errorMessage) => {
           this.error = errorMessage;
           this.isLoading = false;
+        },
+        complete: () => {
+          this.router.navigate(['/recipes']);
         },
       });
     }
