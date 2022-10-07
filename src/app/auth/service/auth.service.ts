@@ -20,6 +20,8 @@ interface SignInResponseData extends AuthResponseData {
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   user: BehaviorSubject<User> = new BehaviorSubject<User>(null);
+  private _tokenExpirationTimer: any;
+
   constructor(private http: HttpClient) {}
 
   singUp(email: string, password: string): Observable<AuthResponseData> {
@@ -68,6 +70,11 @@ export class AuthService {
 
   logout(): void {
     this.user.next(null);
+    localStorage.removeItem('userData');
+
+    if (this._tokenExpirationTimer) {
+      clearTimeout(this._tokenExpirationTimer);
+    }
   }
 
   autoLogin(): void {
@@ -88,7 +95,17 @@ export class AuthService {
 
     if (loadedUser.token) {
       this.user.next(loadedUser);
+      const expirationDuration =
+        new Date(userData._tokenExpirationDate).getTime() -
+        new Date().getTime();
+      this.autoLogout(expirationDuration);
     }
+  }
+
+  autoLogout(expirationDuration: number): void {
+    this._tokenExpirationTimer = setTimeout(() => {
+      this.logout();
+    }, expirationDuration);
   }
 
   private handleAuthentication(
@@ -100,6 +117,7 @@ export class AuthService {
     const exiprationDate = new Date(new Date().getTime() + expiresIn * 1000);
     const user = new User(email, userId, token, exiprationDate);
     this.user.next(user);
+    this.autoLogout(expiresIn * 1000);
     localStorage.setItem('userData', JSON.stringify(user));
   }
 
