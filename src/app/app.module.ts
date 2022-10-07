@@ -5,35 +5,20 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 
-import { DropdownDirective } from './shared/directive/dropdown.directive';
-import { PlaceHolderDirective } from './shared/directive/placeholder.directive';
-
 import { ShoppingListService } from './shopping-list/service/shopping-list.service';
 import { RecipeService } from './recipes/service/recipe.service';
 import { AuthInterceptor } from './auth/service/auth-interceptor.service';
 
 import { AppComponent } from './app.component';
 import { AuthComponent } from './auth/auth.component';
-import { SpinnerComponent } from './shared/component/spinner/spinner.component';
 import { HeaderComponent } from './header/header.component';
-import { AlertComponent } from './shared/component/alert/alert.component';
 
 import { RecipesModule } from './recipes/recipes.module';
 import { ShpoppingListModule } from './shopping-list/shopping-list.module';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HeaderComponent,
-    
-    AuthComponent,
-    SpinnerComponent,
-    AlertComponent,
-
-    // Directives
-    DropdownDirective,
-    PlaceHolderDirective,
-  ],
+  declarations: [AppComponent, HeaderComponent, AuthComponent],
   imports: [
     BrowserModule,
     FormsModule,
@@ -42,7 +27,8 @@ import { ShpoppingListModule } from './shopping-list/shopping-list.module';
     HttpClientModule,
 
     RecipesModule,
-    ShpoppingListModule
+    ShpoppingListModule,
+    SharedModule,
   ],
   providers: [
     // Services
@@ -51,8 +37,5 @@ import { ShpoppingListModule } from './shopping-list/shopping-list.module';
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
-  // This property is deprecated in latest Angular
-  // we can ommit this, and Angular will take care about entryComponents
-  entryComponents: [AlertComponent],
 })
 export class AppModule {}
