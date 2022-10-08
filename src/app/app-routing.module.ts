@@ -1,5 +1,10 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import {
+  PreloadAllModules,
+  PreloadingStrategy,
+  RouterModule,
+  Routes,
+} from '@angular/router';
 
 /** Most Specific to Most Generic */
 /** Static Routes followed by Dynamic Route Parameters */
@@ -25,7 +30,9 @@ const appRoutes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(appRoutes)],
+  imports: [
+    RouterModule.forRoot(appRoutes, { preloadingStrategy: PreloadAllModules }),
+  ],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}
