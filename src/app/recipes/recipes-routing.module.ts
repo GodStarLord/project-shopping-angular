@@ -11,7 +11,7 @@ import { RecipeResolverService } from './resolver/recipe-reslover.service';
 /** Handle all the `/recipes` related routes */
 const recipesRoutes: Routes = [
   {
-    path: 'recipes',
+    path: '',
     component: RecipesComponent,
     children: [
       { path: 'new', component: RecipeEditComponent },
