@@ -5,7 +5,9 @@ import { Observable, Subscription } from 'rxjs';
 import { Ingredient } from '../shared/model/ingredient.model';
 
 import { ShoppingListService } from './service/shopping-list.service';
+
 import * as fromShoppingListReducer from './store/shopping-list.reducer';
+import * as ShoppingListActions from './store/shopping-list.actions';
 
 @Component({
   selector: 'app-shopping-list',
@@ -13,7 +15,7 @@ import * as fromShoppingListReducer from './store/shopping-list.reducer';
   styleUrls: ['./shopping-list.component.css'],
 })
 export class ShoppingListComponent implements OnInit, OnDestroy {
-  ingredients: Observable<{ ingredients: Ingredient[] }>;
+  ingredients: Observable<fromShoppingListReducer.State>;
 
   private subscription: Subscription;
 
@@ -36,6 +38,7 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
   }
 
   onEditItem(index: number): void {
-    this.shoppingListService.startedEditing.next(index);
+    // this.shoppingListService.startedEditing.next(index);
+    this.store.dispatch(new ShoppingListActions.StartEdit(index));
   }
 }

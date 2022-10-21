@@ -8,7 +8,7 @@ export interface State {
 }
 
 export interface AppState {
-  shoppingList: State
+  shoppingList: State;
 }
 
 const initialState: State = {
@@ -52,6 +52,16 @@ export function ShoppingListReducer(
           return igIndex !== action.payLoad;
         }),
       };
+
+    case ShoppingListActions.START_EDIT:
+      return {
+        ...state,
+        editedIngredientIndex: action.payLoad,
+        editedIngredient: { ...state.ingredients[action.payLoad] },
+      };
+
+    case ShoppingListActions.STOP_EDIT:
+      return { ...state, editedIngredientIndex: -1, editedIngredient: null };
 
     default:
       return state;
