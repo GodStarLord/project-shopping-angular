@@ -18,7 +18,6 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
   @ViewChild('f') shoppingListForm: NgForm;
   subscription: Subscription;
   isEditMode: boolean = false;
-  editedItemIndex: number;
   editedItem: Ingredient;
 
   constructor(
@@ -75,10 +74,7 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
       //   newIngredient
       // );
       this.store.dispatch(
-        new ShoppingListActions.UpdateIngredient({
-          index: this.editedItemIndex,
-          newIngredient: newIngredient,
-        })
+        new ShoppingListActions.UpdateIngredient(newIngredient)
       );
     }
 
@@ -90,11 +86,9 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
   }
 
   onDelete(): void {
+    this.store.dispatch(new ShoppingListActions.DeleteIngredient());
     this.clearFormEdit();
     // this.shoppingListService.deleteIngredient(this.editedItemIndex);
-    this.store.dispatch(
-      new ShoppingListActions.DeleteIngredient(this.editedItemIndex)
-    );
   }
 
   private clearFormEdit(): void {
