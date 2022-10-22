@@ -25,7 +25,7 @@ interface SignInResponseData extends AuthResponseData {
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  user: BehaviorSubject<User> = new BehaviorSubject<User>(null);
+  // user: BehaviorSubject<User> = new BehaviorSubject<User>(null);
   private _tokenExpirationTimer: any;
 
   constructor(
