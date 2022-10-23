@@ -6,12 +6,16 @@ import {
 } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
 import { AlertComponent } from '../shared/component/alert/alert.component';
 import { PlaceHolderDirective } from '../shared/directive/placeholder.directive';
+import { AppState } from '../store/app.reducer';
 
 import { AuthService } from './service/auth.service';
+
+import * as AuthActions from './store/auth.actions';
 
 @Component({ selector: 'app-auth', templateUrl: './auth.component.html' })
 export class AuthComponent implements OnDestroy {
@@ -26,7 +30,8 @@ export class AuthComponent implements OnDestroy {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private componentFactoryResolver: ComponentFactoryResolver
+    private componentFactoryResolver: ComponentFactoryResolver,
+    private store: Store<AppState>
   ) {}
 
   ngOnDestroy(): void {
@@ -60,6 +65,7 @@ export class AuthComponent implements OnDestroy {
         },
       });
     } else {
+      this.store.dispatch(new AuthActions.LoginStart({ email, password }));
       this.authService.login(email, password).subscribe({
         next: (resData) => {
           this.isLoading = false;
