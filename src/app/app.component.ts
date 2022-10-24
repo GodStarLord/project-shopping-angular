@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import { AuthService } from './auth/service/auth.service';
-
 import * as AuthActions from './auth/store/auth.actions';
 import { AppState } from './store/app.reducer';
 
@@ -14,13 +12,9 @@ import { AppState } from './store/app.reducer';
 export class AppComponent implements OnInit {
   title = 'Project Shopping';
 
-  constructor(
-    private authService: AuthService,
-    private store: Store<AppState>
-  ) {}
+  constructor(private store: Store<AppState>) {}
 
   ngOnInit(): void {
     this.store.dispatch(new AuthActions.AutoLogin());
-    this.authService.autoLogin();
   }
 }
