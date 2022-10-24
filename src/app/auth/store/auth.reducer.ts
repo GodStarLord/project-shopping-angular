@@ -40,6 +40,7 @@ export function authReducer(
       };
 
     case AuthActions.LOGIN_START:
+    case AuthActions.SIGNUP_START:
       return { ...state, authErrorMsg: null, isLoading: true };
 
     case AuthActions.AUTHENTICATE_FAIL:
@@ -49,6 +50,9 @@ export function authReducer(
         user: null,
         isLoading: false,
       };
+
+    case AuthActions.CLEAR_ERROR:
+      return { ...state, authErrorMsg: null };
 
     default:
       return state;

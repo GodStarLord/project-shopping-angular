@@ -27,6 +27,7 @@ export class AuthComponent implements OnDestroy, OnInit {
   @ViewChild(PlaceHolderDirective, { static: false })
   alertHost: PlaceHolderDirective;
   private closeSubscription: Subscription;
+  private storeSubscription: Subscription;
 
   constructor(
     private authService: AuthService,
@@ -36,16 +37,19 @@ export class AuthComponent implements OnDestroy, OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.store.select('auth').subscribe((authState) => {
-      this.isLoading = authState.isLoading;
-      this.error = authState.authErrorMsg;
+    this.storeSubscription = this.store
+      .select('auth')
+      .subscribe((authState) => {
+        this.isLoading = authState.isLoading;
+        this.error = authState.authErrorMsg;
 
-      if (this.error) this.showErrorAlert(this.error);
-    });
+        if (this.error) this.showErrorAlert(this.error);
+      });
   }
 
   ngOnDestroy(): void {
     if (this.closeSubscription) this.closeSubscription.unsubscribe();
+    this.storeSubscription.unsubscribe();
   }
 
   onSwitchMode(): void {
@@ -95,7 +99,8 @@ export class AuthComponent implements OnDestroy, OnInit {
   }
 
   onCloseAlert(): void {
-    this.error = null;
+    // this.error = null;
+    this.store.dispatch(new AuthActions.ClearError());
   }
 
   // Dynamically Create Alert Component
