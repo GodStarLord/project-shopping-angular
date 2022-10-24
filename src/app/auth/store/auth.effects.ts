@@ -24,6 +24,8 @@ export class AuthEffects {
   // Stream of dispatched actions
   // * variable$ => $ is suffixed for an observable
 
+  authSignup = this.actions$.pipe(ofType(AuthActions.SIGNUP_START));
+
   @Effect()
   authLogin = this.actions$.pipe(
     ofType(AuthActions.LOGIN_START),
@@ -42,7 +44,7 @@ export class AuthEffects {
             const exiprationDate = new Date(
               new Date().getTime() + +resData.expiresIn * 1000
             );
-            return new AuthActions.Login({
+            return new AuthActions.AuthenticateSuccess({
               email: resData.email,
               userId: resData.localId,
               token: resData.idToken,
@@ -54,7 +56,7 @@ export class AuthEffects {
             // ! must return an non error observable such that this observable never dies
             let errorMessage = 'An unknown error occured!';
             if (!errorRes.error || !errorRes.error.error)
-              return of(new AuthActions.LoginFail(errorMessage));
+              return of(new AuthActions.AuthenticateFail(errorMessage));
             switch (errorRes.error.error.message) {
               case 'EMAIL_EXISTS':
                 errorMessage = 'This email already exists!';
@@ -66,7 +68,7 @@ export class AuthEffects {
                 errorMessage = 'The password entered is incorrect!';
                 break;
             }
-            return of(new AuthActions.LoginFail(errorMessage));
+            return of(new AuthActions.AuthenticateFail(errorMessage));
           })
         );
     })
@@ -74,7 +76,7 @@ export class AuthEffects {
 
   @Effect({ dispatch: false })
   authSuccess = this.actions$.pipe(
-    ofType(AuthActions.LOGIN),
+    ofType(AuthActions.AUTHENTICATE_SUCCESS),
     tap(() => {
       this.router.navigate(['/']);
     })
