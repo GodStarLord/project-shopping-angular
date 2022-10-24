@@ -57,23 +57,23 @@ export class AuthComponent implements OnDestroy, OnInit {
       return;
     }
 
-    this.isLoading = true;
     const { email, password } = authForm.value;
 
     if (!this.isLoginMode) {
-      this.authService.singUp(email, password).subscribe({
-        next: (resData) => {
-          this.isLoading = false;
-        },
-        error: (errorMessage) => {
-          this.error = errorMessage;
-          this.isLoading = false;
-          this.showErrorAlert(errorMessage);
-        },
-        complete: () => {
-          this.router.navigate(['/recipes']);
-        },
-      });
+      this.store.dispatch(new AuthActions.SignupStart({ email, password }));
+      // this.authService.singUp(email, password).subscribe({
+      //   next: (resData) => {
+      //     this.isLoading = false;
+      //   },
+      //   error: (errorMessage) => {
+      //     this.error = errorMessage;
+      //     this.isLoading = false;
+      //     this.showErrorAlert(errorMessage);
+      //   },
+      //   complete: () => {
+      //     this.router.navigate(['/recipes']);
+      //   },
+      // });
     } else {
       this.store.dispatch(new AuthActions.LoginStart({ email, password }));
       // this.authService.login(email, password).subscribe({
