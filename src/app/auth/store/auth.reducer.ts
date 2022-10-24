@@ -4,10 +4,14 @@ import * as AuthActions from './auth.actions';
 
 export interface State {
   user: User;
+  authErrorMsg: string;
+  isLoading: boolean;
 }
 
 const initialState: State = {
   user: null,
+  authErrorMsg: null,
+  isLoading: false,
 };
 
 export function authReducer(
@@ -24,13 +28,26 @@ export function authReducer(
       );
       return {
         ...state,
+        authErrorMsg: null,
         user,
+        isLoading: false,
       };
 
     case AuthActions.LOGOUT:
       return {
         ...state,
         user: null,
+      };
+
+    case AuthActions.LOGIN_START:
+      return { ...state, authErrorMsg: null, isLoading: true };
+
+    case AuthActions.LOGIN_FAIL:
+      return {
+        ...state,
+        authErrorMsg: action.payLoad,
+        user: null,
+        isLoading: false,
       };
 
     default:
