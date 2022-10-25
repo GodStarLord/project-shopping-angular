@@ -31,7 +31,7 @@ import { AuthEffects } from './auth/store/auth.effects';
 
     // Development Only
     StoreDevtoolsModule.instrument({ logOnly: environment.production }),
-    StoreRouterConnectingModule.forRoot()
+    // StoreRouterConnectingModule.forRoot()
   ],
   providers: [
     // Services

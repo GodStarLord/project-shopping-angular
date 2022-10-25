@@ -129,6 +129,7 @@ export class AuthEffects {
     })
   );
 
+  @Effect()
   autoLogin = this.actions$.pipe(
     ofType(AuthActions.AUTO_LOGIN),
     map(() => {
