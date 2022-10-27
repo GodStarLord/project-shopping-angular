@@ -1,11 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { User } from '../auth/model/user.model';
-
-import { DataStorageService } from '../shared/service/data-storage.service';
+import { Store } from '@ngrx/store';
 
 import { AppState } from '../store/app.reducer';
 import * as AuthActions from '../auth/store/auth.actions';
@@ -37,12 +33,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   onSaveData(): void {
-    // this.dataService.storeRecipes();
     this.store.dispatch(new RecipeActions.StoreRecipe());
   }
 
   onFetchData(): void {
-    // this.dataService.fetchRecipes().subscribe();
     this.store.dispatch(new RecipeActions.FetchRecipes());
   }
 

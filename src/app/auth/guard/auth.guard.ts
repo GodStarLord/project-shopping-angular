@@ -12,13 +12,10 @@ import { map, take } from 'rxjs/operators';
 
 import { AppState } from 'src/app/store/app.reducer';
 
-import { AuthService } from '../service/auth.service';
-
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
   constructor(
     private router: Router,
-    private authService: AuthService,
     private store: Store<AppState>
   ) {}
 

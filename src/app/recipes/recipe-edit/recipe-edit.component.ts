@@ -58,12 +58,10 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
     );
 
     if (this.isEditMode) {
-      // this.recipeService.updateRecipe(this.id, newRecipe);
       this.store.dispatch(
         new RecipeActions.UpdateRecipe({ index: this.id, newRecipe: newRecipe })
       );
     } else {
-      // this.recipeService.addRecipe(newRecipe);
       this.store.dispatch(new RecipeActions.AddRecipe(newRecipe));
     }
 
@@ -101,7 +99,6 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
     let recipeIngredients = new FormArray([]);
 
     if (!!this.isEditMode) {
-      // const recipe: Recipe = this.recipeService.getRecipe(this.id);
       this.subscription = this.store
         .select('recipes')
         .pipe(

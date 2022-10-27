@@ -5,10 +5,9 @@ import { map, switchMap } from 'rxjs/operators';
 
 import { Recipe } from '../model/recipe.model';
 
-import { RecipeService } from '../service/recipe.service';
-
 import { AppState } from 'src/app/store/app.reducer';
-import * as RecipeActions from './../store/recipe.actions';
+import * as RecipeActions from '../store/recipe.actions';
+import * as ShoppingListActions from '../../shopping-list/store/shopping-list.actions';
 
 @Component({
   selector: 'app-recipe-detail',
@@ -20,7 +19,6 @@ export class RecipeDetailComponent implements OnInit {
   id: number; //  Recipe ID
 
   constructor(
-    private recipeService: RecipeService,
     private route: ActivatedRoute,
     private router: Router,
     private store: Store<AppState>
@@ -64,7 +62,9 @@ export class RecipeDetailComponent implements OnInit {
   }
 
   onAddToShopingList(): void {
-    this.recipeService.addIngredientsToShoppingList(this.recipe.ingredients);
+    this.store.dispatch(
+      new ShoppingListActions.AddIngredients(this.recipe.ingredients)
+    );
   }
 
   onEditRecipe(): void {
@@ -73,7 +73,6 @@ export class RecipeDetailComponent implements OnInit {
 
   onDeleteRecipe(): void {
     this.store.dispatch(new RecipeActions.DeleteRecipe(this.id));
-    // this.recipeService.deleteRecipe(this.id);
     this.router.navigate(['/recipes']);
   }
 }
