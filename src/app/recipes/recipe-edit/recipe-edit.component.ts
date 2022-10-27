@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormArray,
@@ -12,24 +12,24 @@ import { Store } from '@ngrx/store';
 
 import { Recipe } from '../model/recipe.model';
 
-import { RecipeService } from '../service/recipe.service';
-
 import { AppState } from 'src/app/store/app.reducer';
+import * as RecipeActions from './../store/recipe.actions';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-recipe-edit',
   templateUrl: './recipe-edit.component.html',
   styleUrls: ['./recipe-edit.component.css'],
 })
-export class RecipeEditComponent implements OnInit {
+export class RecipeEditComponent implements OnInit, OnDestroy {
   id: number;
   isEditMode: boolean = false;
   recipeForm: FormGroup;
+  subscription: Subscription;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private recipeService: RecipeService,
     private store: Store<AppState>
   ) {}
 
@@ -39,6 +39,10 @@ export class RecipeEditComponent implements OnInit {
       this.isEditMode = params['id'] ? true : false;
       this.initForm();
     });
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription) this.subscription.unsubscribe();
   }
 
   onSubmit(): void {
@@ -54,9 +58,13 @@ export class RecipeEditComponent implements OnInit {
     );
 
     if (this.isEditMode) {
-      this.recipeService.updateRecipe(this.id, newRecipe);
+      // this.recipeService.updateRecipe(this.id, newRecipe);
+      this.store.dispatch(
+        new RecipeActions.UpdateRecipe({ index: this.id, newRecipe: newRecipe })
+      );
     } else {
-      this.recipeService.addRecipe(newRecipe);
+      // this.recipeService.addRecipe(newRecipe);
+      this.store.dispatch(new RecipeActions.AddRecipe(newRecipe));
     }
 
     this.onCancel();
@@ -94,7 +102,7 @@ export class RecipeEditComponent implements OnInit {
 
     if (!!this.isEditMode) {
       // const recipe: Recipe = this.recipeService.getRecipe(this.id);
-      this.store
+      this.subscription = this.store
         .select('recipes')
         .pipe(
           map((recipeState) =>

@@ -1,11 +1,11 @@
-import { take } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
   Resolve,
   RouterStateSnapshot,
 } from '@angular/router';
-import { Observable } from 'rxjs';
+import { map, take, switchMap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 
 import { Recipe } from '../model/recipe.model';
@@ -22,10 +22,20 @@ export class RecipeResolverService implements Resolve<Recipe[]> {
   resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): Recipe[] | Observable<Recipe[]> | Promise<Recipe[]> {
-    // Dispatch an action
-    this.store$.dispatch(new RecipeActions.FetchRecipes());
-    // wait for the action ofType to be completed
-    return this.actions$.pipe(ofType(RecipeActions.SET_RECIPES), take(1));
+  ): Observable<Recipe[]> {
+    return this.store$.select('recipes').pipe(
+      take(1),
+      map((recipeState) => recipeState.recipes),
+      switchMap((recipes) => {
+        if (recipes.length === 0) {
+          // Dispatch an action
+          this.store$.dispatch(new RecipeActions.FetchRecipes());
+          // wait for the action ofType to be completed
+          return this.actions$.pipe(ofType(RecipeActions.SET_RECIPES), take(1));
+        } else {
+          return of(recipes);
+        }
+      })
+    );
   }
 }
