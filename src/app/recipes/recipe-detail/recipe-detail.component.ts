@@ -1,8 +1,11 @@
+import { Store } from '@ngrx/store';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { Recipe } from '../model/recipe.model';
 import { RecipeService } from '../service/recipe.service';
+import { AppState } from 'src/app/store/app.reducer';
+import { map, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-recipe-detail',
@@ -16,7 +19,8 @@ export class RecipeDetailComponent implements OnInit {
   constructor(
     private recipeService: RecipeService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private store: Store<AppState>
   ) {}
 
   ngOnInit(): void {
@@ -24,10 +28,36 @@ export class RecipeDetailComponent implements OnInit {
     //  const id = this.route.snapshot.params['id'];
 
     //  This subscribs to the route and reacts to the change in value
-    this.route.params.subscribe((params: Params) => {
-      this.id = +params['id'];
-      this.recipe = this.recipeService.getRecipe(this.id);
-    });
+    // this.route.params.subscribe((params: Params) => {
+    //   this.id = +params['id'];
+    //   // this.recipe = this.recipeService.getRecipe(this.id);
+    //   this.store
+    //     .select('recipes')
+    //     .pipe(
+    //       map((recipeState) =>
+    //         recipeState.recipes.find((recipe, index) => {
+    //           return index === this.id;
+    //         })
+    //       )
+    //     )
+    //     .subscribe((recipe) => (this.recipe = recipe));
+    // });
+
+    // Converting the above code into one big observable
+    this.route.params
+      .pipe(
+        map((params: Params) => +params['id']),
+        switchMap((id) => {
+          this.id = id;
+          return this.store.select('recipes');
+        }),
+        map((recipeState) =>
+          recipeState.recipes.find((recipe, index) => {
+            return index === this.id;
+          })
+        )
+      )
+      .subscribe((recipe) => (this.recipe = recipe));
   }
 
   onAddToShopingList(): void {

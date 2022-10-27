@@ -12,11 +12,11 @@ import { RecipeService } from '../../service/recipe.service';
 export class RecipeItemComponent implements OnInit {
   /** @Input() allows us to bind this property from outside */
   @Input() index: number;
-  recipe: Recipe;
+  @Input() recipe: Recipe;
 
   constructor(private recipeService: RecipeService) {}
 
   ngOnInit(): void {
-    this.recipe = this.recipeService.getRecipe(this.index);
+    // this.recipe = this.recipeService.getRecipe(this.index);
   }
 }

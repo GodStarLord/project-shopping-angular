@@ -6,8 +6,6 @@ import { Store } from '@ngrx/store';
 
 import { Recipe } from '../model/recipe.model';
 
-import { RecipeService } from '../service/recipe.service';
-
 import { AppState } from 'src/app/store/app.reducer';
 
 @Component({
@@ -16,32 +14,22 @@ import { AppState } from 'src/app/store/app.reducer';
   styleUrls: ['./recipe-list.component.css'],
 })
 export class RecipeListComponent implements OnInit, OnDestroy {
-  recipes: Recipe[];
+  recipes: Recipe[] = [];
   private subscription: Subscription;
 
   constructor(
-    private recipeService: RecipeService,
     private router: Router,
     private route: ActivatedRoute,
     private store: Store<AppState>
   ) {}
 
   ngOnInit(): void {
-    this.subscription = this.recipeService.recipesChanged.subscribe(
-      (recipes: Recipe[]) => (this.recipes = recipes)
-    );
-      this.recipes = this.recipeService.getRecipes();
-
-    // this.store
-    //   .select('recipes')
-    //   .pipe(
-    //     map((recipeState) => {
-    //       return recipeState.recipes;
-    //     })
-    //   )
-    //   .subscribe((recipes) => {
-    //     this.recipes = recipes;
-    //   });
+    this.store
+      .select('recipes')
+      .pipe(map((recipeState) => recipeState.recipes))
+      .subscribe((recipes: Recipe[]) => {
+        this.recipes = recipes;
+      });
   }
 
   ngOnDestroy(): void {
