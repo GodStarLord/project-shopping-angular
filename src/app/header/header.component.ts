@@ -5,11 +5,11 @@ import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { User } from '../auth/model/user.model';
 
-import { AuthService } from '../auth/service/auth.service';
 import { DataStorageService } from '../shared/service/data-storage.service';
 
 import { AppState } from '../store/app.reducer';
 import * as AuthActions from '../auth/store/auth.actions';
+import * as RecipeActions from '../recipes/store/recipe.actions';
 
 @Component({
   selector: 'app-header',
@@ -22,7 +22,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private dataService: DataStorageService,
-    private authService: AuthService,
     private store: Store<AppState>
   ) {}
 
@@ -46,7 +45,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   onFetchData(): void {
-    this.dataService.fetchRecipes().subscribe();
+    // this.dataService.fetchRecipes().subscribe();
+    this.store.dispatch(new RecipeActions.FetchRecipes());
   }
 
   onLogout(): void {
